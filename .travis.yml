@@ -16,3 +16,18 @@ matrix:
     - os: linux
       env:
         - MB_PYTHON_VERSION=3.7
+
+before_install:
+    - BUILD_DEPENDS="Cython pandas"
+    - TEST_DEPENDS="pandas"
+    - source multibuild/common_utils.sh
+    - source multibuild/travis_steps.sh
+    - before_install
+
+install:
+    # Maybe get and clean and patch source
+    - clean_code $REPO_DIR $BUILD_COMMIT
+    - build_wheel $REPO_DIR $PLAT
+
+script:
+    - install_run $PLAT
