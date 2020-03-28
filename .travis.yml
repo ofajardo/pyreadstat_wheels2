@@ -11,4 +11,11 @@ python: 3.5
 dist: trusty
 services: docker
 
-
+matrix:
+  exclude:
+      # Exclude the default Python 3.5 build
+      - python: 3.5
+  include:
+   - os: linux
+     env:
+       - MB_PYTHON_VERSION=3.7
