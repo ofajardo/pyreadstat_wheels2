@@ -63,6 +63,6 @@ after_test:
 on_success:
   - cd dist
   - dir
-  - pip install git+https://github.com/Anaconda-Platform/anaconda-client
+  - conda install anaconda-client
   - anaconda -t %ANACONDA_TOKEN% upload --force -u %ANACONDA_ORG% *.whl
 
