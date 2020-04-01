@@ -1,0 +1,69 @@
+environment:
+
+  global:
+      # Remember to edit .travis.yml too
+      BUILD_COMMIT: de8d32f846d8c9ed3aadd7dc3d91bdca4270d8e5
+      ANCONDA_ORG: ofajardo
+      ANACONDA_ORG_TOKEN: %ANACONDA_TOKEN%
+
+  matrix:
+    - PYTHON_VERSION: "3.5"
+      CONDAPATH: 'C:\Miniconda35'
+    - PYTHON_VERSION: "3.6"
+      CONDAPATH: 'C:\Miniconda36'
+    - PYTHON_VERSION: "3.7"
+      CONDAPATH: 'C:\Miniconda37'
+    - PYTHON_VERSION: "3.8"
+      CONDAPATH: 'C:\Miniconda38'
+
+platform:
+  - x64
+  - x86
+
+install:
+  - git submodule update --init
+  # activate conda base environment
+  - if "%PLATFORM%" == "x64" set CONDAPATH=%CONDAPATH%-x64
+  - call %CONDAPATH%\Scripts\activate
+  # Check that we have the expected version and architecture for Python
+  - python --version
+  - python -c "import struct; print(struct.calcsize('P') * 8)"
+  # prepare environment with conda
+  - conda config --set always_yes yes --set changeps1 no
+  - conda update -q conda
+  - conda install -q setuptools pandas pip libpython cython wheel
+  # mingw64 toolchain to compile python extensions
+  - conda install -q -c msys2 m2w64-toolchain
+  
+build_script:
+  # Build and install the wheel
+  - cd pyreadstat
+  - git fetch origin
+  - git checkout %BUILD_COMMIT%
+  # clean dist dir just in case there is something in there
+  #- del /Q dist\*.*
+  # set mingw32 as compiler and produce the wheel
+  - python.exe setup.py config --compiler=mingw32
+  - python.exe setup.py bdist_wheel 
+  - ps: "ls dist"
+  - ps: |
+      # Upload artifact to Appveyor immediately after build
+      ls dist -r | Foreach-Object {
+          appveyor PushArtifact $_.FullName
+          pip install $_.FullName
+      }
+  - pip install --pre --no-index --find-links dist/ pyreadstat
+
+test_script:
+  python.exe tests\test_basic.py
+
+after_test:
+  # If tests are successful, create binary packages for the project.
+  - dir dist
+
+on_success:
+  - cd dist
+  - dir
+  - pip install git+https://github.com/Anaconda-Platform/anaconda-client
+  - anaconda -t %ANACONDA_ORG_TOKEN% upload --force -u %ANACONDA_ORG% *.whl
+
