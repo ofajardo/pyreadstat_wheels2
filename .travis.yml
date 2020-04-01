@@ -4,7 +4,6 @@ env:
       - BUILD_COMMIT=de8d32f846d8c9ed3aadd7dc3d91bdca4270d8e5
       - PLAT=x86_64
       - UNICODE_WIDTH=32
-      - WHEELHOUSE_UPLOADER_USERNAME=travis-worker
       - ANACONDA_ORG=ofajardo
       - ANACONDA_ORG_TOKEN=$ANACONDA_TOKEN
 
