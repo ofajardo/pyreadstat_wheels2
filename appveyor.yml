@@ -22,8 +22,13 @@ platform:
 install:
   - git submodule update --init
   # activate conda base environment
+  #- if "%PLATFORM%" == "x64" set CONDAPATH=%CONDAPATH%-x64
+  - set CONDAPATH=C:\Miniconda37
   - if "%PLATFORM%" == "x64" set CONDAPATH=%CONDAPATH%-x64
   - call %CONDAPATH%\Scripts\activate
+  # create an environment with the appropiate python
+  - conda create -y -n currentenv python=$PYTHON_VERSION
+  - conda activate currentenv
   # Check that we have the expected version and architecture for Python
   - python --version
   - python -c "import struct; print(struct.calcsize('P') * 8)"
