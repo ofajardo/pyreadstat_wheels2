@@ -23,18 +23,20 @@ install:
   - git submodule update --init
   # activate conda base environment
   #- if "%PLATFORM%" == "x64" set CONDAPATH=%CONDAPATH%-x64
+  # use conda37 for everything and later create a conda env with version
   - set CONDAPATH=C:\Miniconda37
   - if "%PLATFORM%" == "x64" set CONDAPATH=%CONDAPATH%-x64
   - call %CONDAPATH%\Scripts\activate
+  # prepare environment with conda
+  - conda config --set always_yes yes --set changeps1 no
+  - conda update -q conda
   # create an environment with the appropiate python
   - conda create -y -n currentenv python=%PYTHON_VERSION%
   - conda activate currentenv
   # Check that we have the expected version and architecture for Python
   - python --version
   - python -c "import struct; print(struct.calcsize('P') * 8)"
-  # prepare environment with conda
-  - conda config --set always_yes yes --set changeps1 no
-  - conda update -q conda
+  # install necessary packages
   - conda install -q setuptools pandas pip libpython cython wheel
   # mingw64 toolchain to compile python extensions
   - conda install -q -c msys2 m2w64-toolchain
