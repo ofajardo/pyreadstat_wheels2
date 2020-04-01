@@ -27,7 +27,7 @@ install:
   - if "%PLATFORM%" == "x64" set CONDAPATH=%CONDAPATH%-x64
   - call %CONDAPATH%\Scripts\activate
   # create an environment with the appropiate python
-  - conda create -y -n currentenv python=$PYTHON_VERSION
+  - conda create -y -n currentenv python=%PYTHON_VERSION%
   - conda activate currentenv
   # Check that we have the expected version and architecture for Python
   - python --version
