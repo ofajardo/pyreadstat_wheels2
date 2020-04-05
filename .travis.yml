@@ -1,7 +1,7 @@
 env:
   global:
       - REPO_DIR="pyreadstat"
-      - BUILD_COMMIT=5e6a3b680e4a720e1484ab15ddbe2359886201b4
+      - BUILD_COMMIT=d6ce1cc58e5ddf16927fe1d1e0d61e14dc72c37a
       - PLAT=x86_64
       - UNICODE_WIDTH=32
       - ANACONDA_ORG=ofajardo
