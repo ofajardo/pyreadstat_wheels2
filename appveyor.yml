@@ -59,6 +59,7 @@ build_script:
           pip install $_.FullName
       }
   - pip install --pre --no-index --find-links dist/ pyreadstat
+  - pip install pandas
 
 test_script:
   python.exe tests\test_basic.py
