@@ -1,7 +1,7 @@
 env:
   global:
       - REPO_DIR="pyreadstat"
-      - BUILD_COMMIT=95aea7d2cd80bc0e641069192ac2eab07dcf196c
+      - BUILD_COMMIT=5924d3203f95e6fa71e0c6adea6a1477a312af33
       - PLAT=x86_64
       - UNICODE_WIDTH=32
       - ANACONDA_ORG=ofajardo
@@ -9,7 +9,7 @@ env:
 
 language: python
 # Default Python version is usually 2.7
-python: 3.5
+#python: 3.5
 sudo: required
 dist: bionic
 services: docker
