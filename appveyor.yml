@@ -15,9 +15,8 @@ environment:
       #CONDAPATH: 'C:\Miniconda38'
     - PYTHON_VERSION: "3.9"
       #CONDAPATH: 'C:\Miniconda35'
-    exclude:
-      - platform: x86
-        PYTHON_VERSION: "3.9"
+      except:
+        - platform: x86
  
 platform:
   - x64
