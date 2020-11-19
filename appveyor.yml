@@ -20,6 +20,10 @@ platform:
   - x64
   - x86
 
+exclude:
+  - platform: x86
+    PYTHON_VERSION: "3.9"
+
 install:
   - git submodule update --init
   # activate conda base environment
